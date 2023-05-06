@@ -1,0 +1,13 @@
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\bin\Debug\LogSpy.exe.config
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\bin\Debug\LogSpy.exe
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\bin\Debug\LogSpy.pdb
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.csproj.AssemblyReference.cache
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.csproj.SuggestedBindingRedirects.cache
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.Properties.Resources.resources
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.csproj.GenerateResource.cache
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.csproj.CoreCompileInputs.cache
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.exe
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.pdb
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.About.resources
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.MainForm.resources
+C:\Users\LloydChr\Desktop\rb\LogSpy\Src\LogSpy\obj\Debug\LogSpy.LogForm.resources

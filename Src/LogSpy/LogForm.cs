@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace LogSpy
+{
+    public partial class LogForm : Form
+    {
+        new string FilePath = "";
+        string[] errorWords = { "error", "failed", "exception", "alert" };
+        string[] warningWords = { "warning" };
+        public LogForm(string FileLocationToLoad)
+        {
+            InitializeComponent();
+            FilePath = FileLocationToLoad;
+        }
+
+        private void LogForm_Load(object sender, EventArgs e)
+        {
+            Text = FilePath;
+            LoadLogEntries();
+            
+        }
+        private void LoadLogEntries()
+        {
+            LogList.Clear();
+
+            // Load in the log file
+            string[] lines = File.ReadAllLines(FilePath);
+
+            //// Go through each line in the log file
+            //for (int i = 0; i < lines.Length; i++)
+            //{
+            //    string line = lines[i];
+            //    bool isError = false;
+            //    bool isWarning = false;
+            //    bool isInfo = false;
+
+            //    // Check if the line contains any of the error keywords
+            //    foreach (string errorKeyword in errorWords)
+            //    {
+            //        if (line.ToLower().Contains(errorKeyword.ToLower()))
+            //        {
+            //            isError = true;
+            //            break;
+            //        }
+            //    }
+
+            //    // Set the color of the line based on whether it's an error or not
+            //    Color lineColor = isError ? Color.Red : Color.Black;
+
+            //    // Add the line to the RichTextBox with the appropriate color
+            //    LogList.SelectionStart = LogList.TextLength;
+            //    LogList.SelectionLength = 0;
+            //    LogList.SelectionColor = lineColor;
+            //    LogList.AppendText(line + Environment.NewLine);
+            //    LogList.SelectionColor = LogList.ForeColor;
+            foreach (string line in lines)
+            {
+                // Check if the line contains an error message
+                if (line.ToLower().Contains("error"))
+                {
+                    // Set the color of the error message to red
+                    LogList.SelectionColor = Color.Yellow;
+                    LogList.SelectionBackColor= Color.Red;
+                }
+                // Check if the line contains a warning message
+                if (line.ToLower().Contains("warning"))
+                {
+                    // Set the color of the warning message to orange
+                    LogList.SelectionColor = Color.Black;
+                    LogList.SelectionBackColor = Color.Yellow;
+                }
+                // Check if the line contains an info message
+                //if (line.ToLower().Contains("info"))
+                //{
+                //    // Set the color of the info message to blue
+                //    LogList.SelectionColor = Color.Black;
+                //    LogList.SelectionBackColor = Color.White;
+                //}
+
+                // Add the line to the RichTextBox
+                LogList.AppendText(line + "\n");
+            }
+        }
+
+        }
+        //private void OnLogFileChanged(object sender, FileSystemEventArgs e)
+        //{
+        //    // Load new log entries
+        //    string[] newEntries = File.ReadAllLines(FilePath);
+
+        //    // Find the index of the last entry in the ListBox
+        //    int lastIndex = LogList.Items.Count - 1;
+
+        //    // Add any new entries to the ListBox
+        //    for (int i = lastIndex + 1; i < newEntries.Length; i++)
+        //    {
+        //        // Add the log entry to the ListBox
+        //        Invoke(new Action(() =>
+        //        {
+        //            LogList.Items.Add(newEntries[i]);
+        //        }));
+        //    }
+        //}
+
+        //private void LogList_DrawItem(object sender, DrawItemEventArgs e)
+        //{
+        //    //e.DrawBackground();
+
+        //    //// Get the text of the current item
+        //    //string text = LogList.Items[e.Index].ToString();
+
+        //    //// Set the background color to white
+        //    //e.Graphics.FillRectangle(Brushes.White, e.Bounds);
+        //    //// Set the text color to black
+        //    //e.Graphics.DrawString(text, e.Font, Brushes.Black, e.Bounds);
+
+        //    //if (errorWords.Any(w => text.ToLower().Contains(w)))
+        //    //{
+        //    //    // Set the background color to red
+        //    //    e.Graphics.FillRectangle(Brushes.Red, e.Bounds);
+        //    //    // Set the text color to Yellow
+        //    //    e.Graphics.DrawString(text, e.Font, Brushes.Yellow, e.Bounds);
+        //    //}
+        //    //if (warningWords.Any(w => text.ToLower().Contains(w)))
+        //    //{
+        //    //    // Set the background color to yellow
+        //    //    e.Graphics.FillRectangle(Brushes.Yellow, e.Bounds);
+        //    //    // Set the text color to Black
+        //    //    e.Graphics.DrawString(text, e.Font, Brushes.Black, e.Bounds);
+        //    //}
+
+        //    //e.DrawFocusRectangle();
+
+        //    e.DrawBackground();
+
+        //    if (e.Index >= 0)
+        //    {
+        //        string text = LogList.Items[e.Index].ToString();
+
+        //        if (text.ToLower().Contains("error") || text.ToLower().Contains("failed"))
+        //        {
+        //            e.Graphics.FillRectangle(Brushes.Red, e.Bounds);
+        //            e.Graphics.DrawString(text, e.Font, Brushes.White, e.Bounds);
+        //        }
+        //        else
+        //        {
+        //            e.Graphics.DrawString(text, e.Font, Brushes.Black, e.Bounds);
+        //        }
+        //    }
+
+        //    e.DrawFocusRectangle();
+        //}
+}
