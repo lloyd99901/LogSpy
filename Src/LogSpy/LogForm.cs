@@ -9,32 +9,145 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LogSpy
 {
     public partial class LogForm : Form
     {
         new string FilePath = "";
-        string[] errorWords = { "error", "failed", "exception", "alert" };
-        string[] warningWords = { "warning" };
+        // Define regular expressions to match error, warning and info messages
+        Regex errorRegex = new Regex(@"\b(error|exception|fail(ed)?|fatal)\b", RegexOptions.IgnoreCase);
+        Regex warningRegex = new Regex(@"\b(warning|caution|alert)\b", RegexOptions.IgnoreCase);
+        Regex infoRegex = new Regex(@"\b(info(rmation)?|note|remark)\b", RegexOptions.IgnoreCase);
+
         public LogForm(string FileLocationToLoad)
         {
             InitializeComponent();
             FilePath = FileLocationToLoad;
+
         }
 
         private void LogForm_Load(object sender, EventArgs e)
         {
             Text = FilePath;
             LoadLogEntries();
-            
         }
         private void LoadLogEntries()
         {
             LogList.Clear();
 
-            // Load in the log file
+
+            LogList.Visible = false;
             string[] lines = File.ReadAllLines(FilePath);
+
+            //// Initialize the progress bar
+            //LoadingBar.Value = 0;
+            //LoadingBar.Maximum = LogList.Lines.Length;
+
+
+            //    // Update the progress bar
+            //    LoadingBar.Value = i + 1;
+            //}
+
+            // Show the RichTextBox and reset the progress bar
+            LogList.Visible = true;
+            GC.Collect();
+
+            // Load in the log file
+            //string[] lines = File.ReadAllLines(FilePath);
+
+            //// Set the maximum value of the progress bar to the number of lines in the log file
+            //LoadingBar.Maximum = lines.Length;
+
+            // Loop through each line in the log file
+            for (int i = 0; i < lines.Length; i++)
+            {
+                Refresh();
+                string line = lines[i];
+
+                // Check if the line contains an error message
+                Match errorMatch = errorRegex.Match(line);
+                if (errorMatch.Success)
+                {
+                    // Set the color of the error message to red
+                    LogList.SelectionColor = Color.White;
+                    LogList.SelectionBackColor = Color.Red;
+                    LogList.AppendText(line);
+                    LogList.AppendText(Environment.NewLine);
+                    continue;
+                }
+
+                // Check if the line contains a warning message
+                Match warningMatch = warningRegex.Match(line);
+                if (warningMatch.Success)
+                {
+                    // Set the color of the warning message to orange
+                    LogList.SelectionColor = Color.Black;
+                    LogList.SelectionBackColor = Color.Yellow;
+                    LogList.AppendText(line);
+                    LogList.AppendText(Environment.NewLine);
+
+                    continue;
+                }
+
+                // If the line does not contain an error, warning or info message, just append it as is
+                LogList.AppendText(line);
+                LogList.AppendText(Environment.NewLine);
+
+                Refresh();
+            }
+
+            //LogList.Clear();
+
+            //// Load in the log file
+            //string[] lines = File.ReadAllLines(FilePath);
+
+            //// Define regular expressions to match error, warning and info messages
+            //Regex errorRegex = new Regex(@"\b(error|exception|fail(ed)?|fatal)\b", RegexOptions.IgnoreCase);
+            //Regex warningRegex = new Regex(@"\b(warning|caution|alert)\b", RegexOptions.IgnoreCase);
+            //Regex infoRegex = new Regex(@"\b(info(rmation)?|note|remark)\b", RegexOptions.IgnoreCase);
+
+            //// Loop through each line in the log file
+            //foreach (string line in lines)
+            //{
+            //    // Check if the line contains an error message
+            //    Match errorMatch = errorRegex.Match(line);
+            //    if (errorMatch.Success)
+            //    {
+            //        // Set the color of the error message to red
+            //        LogList.SelectionColor = Color.White;
+            //        LogList.SelectionBackColor = Color.Red;
+            //        LogList.AppendText(line + "\n");
+            //        continue;
+            //    }
+
+            //    // Check if the line contains a warning message
+            //    Match warningMatch = warningRegex.Match(line);
+            //    if (warningMatch.Success)
+            //    {
+            //        // Set the color of the warning message to orange
+            //        LogList.SelectionColor = Color.Black;
+            //        LogList.SelectionBackColor = Color.Yellow;
+            //        LogList.AppendText(line + "\n");
+            //        continue;
+            //    }
+
+            //    // Check if the line contains an info message
+            //    Match infoMatch = infoRegex.Match(line);
+            //    if (infoMatch.Success)
+            //    {
+            //        // Set the color of the info message to blue
+            //        LogList.SelectionColor = Color.White;
+            //        LogList.SelectionBackColor = Color.Blue;
+            //        LogList.AppendText(line + "\n");
+            //        continue;
+            //    }
+
+            //    // If the line does not contain an error, warning or info message, just append it as is
+            //    LogList.AppendText(line + "\n");
+            //}
+
 
             //// Go through each line in the log file
             //for (int i = 0; i < lines.Length; i++)
@@ -63,36 +176,25 @@ namespace LogSpy
             //    LogList.SelectionColor = lineColor;
             //    LogList.AppendText(line + Environment.NewLine);
             //    LogList.SelectionColor = LogList.ForeColor;
-            foreach (string line in lines)
-            {
-                // Check if the line contains an error message
-                if (line.ToLower().Contains("error"))
-                {
-                    // Set the color of the error message to red
-                    LogList.SelectionColor = Color.Yellow;
-                    LogList.SelectionBackColor= Color.Red;
-                }
-                // Check if the line contains a warning message
-                if (line.ToLower().Contains("warning"))
-                {
-                    // Set the color of the warning message to orange
-                    LogList.SelectionColor = Color.Black;
-                    LogList.SelectionBackColor = Color.Yellow;
-                }
-                // Check if the line contains an info message
-                //if (line.ToLower().Contains("info"))
-                //{
-                //    // Set the color of the info message to blue
-                //    LogList.SelectionColor = Color.Black;
-                //    LogList.SelectionBackColor = Color.White;
-                //}
 
-                // Add the line to the RichTextBox
-                LogList.AppendText(line + "\n");
-            }
+            // Check if the line contains an info message
+            //if (line.ToLower().Contains("info"))
+            //{
+            //    // Set the color of the info message to blue
+            //    LogList.SelectionColor = Color.Black;
+            //    LogList.SelectionBackColor = Color.White;
+            //}
+
+            // Add the line to the RichTextBox
+        }
+        private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LogList.Dispose();
+            GC.Collect();
+            Dispose();
         }
 
-        }
+    }
         //private void OnLogFileChanged(object sender, FileSystemEventArgs e)
         //{
         //    // Load new log entries

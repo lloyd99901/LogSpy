@@ -112,6 +112,7 @@ namespace LogSpy
                 foreach(string file in openFileDialog1.FileNames)
                 {
                     LoadFile(file);
+                    Refresh();
                 }
             }
         }

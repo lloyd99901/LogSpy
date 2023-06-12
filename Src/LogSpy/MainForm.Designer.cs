@@ -135,8 +135,8 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(90, 17);
-            this.toolStripStatusLabel1.Text = "Status: Running";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(37, 17);
+            this.toolStripStatusLabel1.Text = "inDev";
             // 
             // RootTreeView
             // 
